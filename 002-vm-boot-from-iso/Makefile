@@ -1,7 +1,17 @@
 vmname="Haiku"
 iso=haiku-r1alpha4.iso
-remote_iso=QmW9on9UeKCVDb5dsTEZJQwQoH53gXUtVfWvSBhf2Thmyq/isos/haiku-r1alpha4.1-iso.tar.xz
-local_compressed_iso_path=haiku-r1alpha4.1-iso.tar.xz
+remote_iso=/ipfs/QmW9on9UeKCVDb5dsTEZJQwQoH53gXUtVfWvSBhf2Thmyq/isos/haiku-r1alpha4.1-iso.tar.xz
+
+define notfound
+$(iso) not found
+Make sure the daemon is running and mounted:
+	ipfs daemon &
+	sleep 10
+	ipfs mount
+
+If you are having trouble mounting IPFS, please see https://github.com/jbenet/go-ipfs/blob/master/docs/fuse.md
+endef
+export notfound
 
 boot: vm
 	VBoxManage startvm $(vmname)
@@ -26,8 +36,6 @@ createvm: $(iso)
 	VBoxManage storageattach $(vmname) --storagectl "IDE Controller" \
 	    --port 1 --device 0 --type dvddrive --medium "$(iso)"
 
-$(iso): $(local_compressed_iso_path)
-	tar Jxvf $(local_compressed_iso_path)
-
-$(local_compressed_iso_path):
-	ipfs get $(remote_iso)
+$(iso):
+	@stat $(remote_iso) >/dev/null 2>/dev/null || (echo "$$notfound" && false)
+	tar Jxvf $(remote_iso)
