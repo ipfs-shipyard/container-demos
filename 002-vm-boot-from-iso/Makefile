@@ -2,6 +2,10 @@ vmname="Haiku"
 iso=haiku-r1alpha4.iso
 remote_iso=/ipfs/QmW9on9UeKCVDb5dsTEZJQwQoH53gXUtVfWvSBhf2Thmyq/isos/haiku-r1alpha4.1-iso.tar.xz
 
+ifeq (, $(shell which VBoxManage))
+  $(error "No VBoxManage found in $(PATH). Please install VirtualBox: https://www.virtualbox.org/wiki/Downloads")
+endif
+
 define notfound
 $(iso) not found
 Make sure the daemon is running and mounted:
