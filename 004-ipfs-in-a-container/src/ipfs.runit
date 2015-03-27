@@ -1,0 +1,11 @@
+#!/bin/sh
+IPFS_PATH=/data
+export IPFS_PATH
+
+if [ ! -f ${IPFS_PATH}/config ]; then
+	/usr/bin/ipfs init
+fi
+
+chmod o+rwx /dev/fuse
+
+/usr/bin/ipfs daemon --mount
