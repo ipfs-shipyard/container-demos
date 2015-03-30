@@ -1,5 +1,5 @@
 #!/bin/sh
-IPFS_PATH=/data
+IPFS_PATH=/var/lib/ipfs/data
 export IPFS_PATH
 
 if [ ! -f ${IPFS_PATH}/config ]; then
