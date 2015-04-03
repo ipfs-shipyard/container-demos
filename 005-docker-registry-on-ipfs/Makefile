@@ -1,7 +1,5 @@
 container_name=ipfs-registry
 container_tag=ipfs/docker-registry:0.1.0
-image_id=98e62dcc3c34
-image_path=/ipfs/QmaMPvdLWR3YfMVrzgdW5QnQHC1eXoTeUYLMgRJNAMzvi3/ipfs-docker-registry.tar
 
 demo_image_id=bf25c3f7f322
 demo_image_path=/ipfs/QmfG9AUHSc2oeFJ1kVNqoh4UA61knu4WnetawW53kApiGM/wiki-node.img
@@ -17,11 +15,12 @@ If you are having trouble mounting IPFS, please see https://github.com/jbenet/go
 endef
 export notfound
 
-demo: ipfs-docker
-	sudo docker tag $(demo_container_tag) localhost:5000/wiki-node
+demo: ipfs-docker load-demo
+	sudo docker tag -f $(demo_container_tag) localhost:5000/wiki-node
 	sudo docker push localhost:5000/wiki-node
+	ls /ipns/local/docker-registry/images
 
-ipfs-docker: /ipns/local/docker-registry load-image
+ipfs-docker: /ipns/local/docker-registry
 	@stat /ipns/local >/dev/null 2>/dev/null || (echo "$$notfound" && false)
 	sudo docker run -d \
 	  -p 5000:5000 \
@@ -38,11 +37,6 @@ load-demo:
 	sudo docker load < $(demo_image_path)
 	sudo docker tag -f $(demo_image_id) $(demo_container_tag)
 
-load-image:
-	@stat $(image_path) >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	sudo docker load < $(image_path)
-	sudo docker tag -f $(image_id) $(container_tag)
-
 stop:
 	sudo docker stop $(container_name)
 	sudo docker rm $(container_name)
@@ -50,5 +44,5 @@ stop:
 rel-clean:
 	rm -fr /ipns/local/docker-registry
 
-clean-image: stop rel-clean
-	sudo docker rmi $(image_id) $(demo_image_id)
+clean: stop rel-clean
+	sudo docker rmi -f $(demo_image_id)
