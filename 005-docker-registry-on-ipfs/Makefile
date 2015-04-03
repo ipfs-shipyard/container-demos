@@ -18,11 +18,20 @@ export notfound
 demo: ipfs-docker load-demo
 	sudo docker tag -f $(demo_container_tag) localhost:5000/wiki-node
 	sudo docker push localhost:5000/wiki-node
+	@echo
+	@echo Look, we have a registry
+	@echo
 	ls /ipns/local/docker-registry/images
+	@echo
+	@echo Deleting demo image and try a pull
+	@echo
+	sudo docker rmi -f $(demo_image_id)
+	sudo docker pull localhost:5000/wiki-node
 
 ipfs-docker: /ipns/local/docker-registry
+	@echo Starting docker-registry on ipfs if it is not already started
 	@stat /ipns/local >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	sudo docker run -d \
+	sudo docker ps | grep ipfs-registry || sudo docker run -d \
 	  -p 5000:5000 \
 	  --name $(container_name) \
 	  -v /ipns/local/docker-registry:/ipns/local/docker-registry \
@@ -33,8 +42,9 @@ ipfs-docker: /ipns/local/docker-registry
 	mkdir /ipns/local/docker-registry
 
 load-demo:
+	@echo Loading demo image if it is not already loaded
 	@stat $(demo_image_path) >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	sudo docker load < $(demo_image_path)
+	sudo docker images | grep $(demo_image_id) || sudo docker load < $(demo_image_path)
 	sudo docker tag -f $(demo_image_id) $(demo_container_tag)
 
 stop:
