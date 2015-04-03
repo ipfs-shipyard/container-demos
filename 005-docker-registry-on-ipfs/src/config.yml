@@ -155,5 +155,5 @@ test:
 # To specify another flavor, set the environment variable SETTINGS_FLAVOR
 # $ export SETTINGS_FLAVOR=prod
 prod:
-    <<: *s3
+    <<: *local
     storage_path: _env:STORAGE_PATH:/ipns/local/docker-registry
