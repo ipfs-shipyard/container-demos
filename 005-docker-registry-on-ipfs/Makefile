@@ -9,7 +9,8 @@ define notfound
 $(image_path) not found
 Make sure the daemon is running and mounted with allow_other:
 	ipfs config Mounts.AllowOther --bool true
-	ipfs daemon --mount
+	ipfs daemon --mount &
+	sleep 10
 
 If you are having trouble mounting IPFS, please see https://github.com/jbenet/go-ipfs/blob/master/docs/fuse.md
 endef

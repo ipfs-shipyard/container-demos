@@ -10,7 +10,7 @@ To run this demo:
       ```sh
       export PATH=${HOME}/ipfs/bin:${PATH}
       ipfs config Mounts.FuseAllowOther --bool true
-      ipfs daemon --mount
+      ipfs daemon --mount &
       sleep 10
       ```
       If you are having trouble with FUSE, please see: https://github.com/jbenet/go-ipfs/blob/master/docs/fuse.md
