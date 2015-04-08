@@ -15,14 +15,16 @@ To run this demo:
       ```
       If you are having trouble with FUSE, please see: https://github.com/jbenet/go-ipfs/blob/master/docs/fuse.md
 
-   2. Build the ipfs docker registry
+   2. Make sure you can run Docker without `sudo`. For Ubuntu Linux users, see: https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo/477554#477554
+
+   3. Build the ipfs docker registry
       ```sh
       cd src
       make
       cd ..
       ```
 
-   3. Run ```make```
+   4. Run ```make```
 
 ## Start Docker Registry on another machine
 

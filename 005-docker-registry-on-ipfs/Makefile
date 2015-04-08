@@ -17,8 +17,8 @@ endef
 export notfound
 
 demo: ipfs-docker load-demo
-	sudo docker tag -f $(demo_container_tag) localhost:5000/wiki-node
-	sudo docker push localhost:5000/wiki-node
+	docker tag -f $(demo_container_tag) localhost:5000/wiki-node
+	docker push localhost:5000/wiki-node
 	@echo
 	@echo Look, we have a registry
 	@echo
@@ -26,13 +26,13 @@ demo: ipfs-docker load-demo
 	@echo
 	@echo Deleting demo image and try a pull
 	@echo
-	sudo docker rmi -f $(demo_image_id)
-	sudo docker pull localhost:5000/wiki-node
+	docker rmi -f $(demo_image_id)
+	docker pull localhost:5000/wiki-node
 
 ipfs-docker: /ipns/local/docker-registry
 	@echo Starting docker-registry on ipfs if it is not already started
 	@stat /ipns/local >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	sudo docker ps | grep ipfs-registry || sudo docker run -d \
+	docker ps | grep ipfs-registry || docker run -d \
 	  -p 5000:5000 \
 	  --name $(container_name) \
 	  -v /ipns/local/docker-registry:/ipns/local/docker-registry \
@@ -45,15 +45,15 @@ ipfs-docker: /ipns/local/docker-registry
 load-demo:
 	@echo Loading demo image if it is not already loaded
 	@stat $(demo_image_path) >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	sudo docker images | grep $(demo_image_id) || sudo docker load < $(demo_image_path)
-	sudo docker tag -f $(demo_image_id) $(demo_container_tag)
+	docker images | grep $(demo_image_id) || docker load < $(demo_image_path)
+	docker tag -f $(demo_image_id) $(demo_container_tag)
 
 stop:
-	sudo docker stop $(container_name)
-	sudo docker rm $(container_name)
+	docker stop $(container_name)
+	docker rm $(container_name)
 
 rel-clean:
 	rm -fr /ipns/local/docker-registry
 
 clean: stop rel-clean
-	sudo docker rmi -f $(demo_image_id)
+	docker rmi -f $(demo_image_id)
