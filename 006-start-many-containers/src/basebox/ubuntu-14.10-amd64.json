@@ -185,6 +185,7 @@
         "scripts/common/vmtools.sh",
         "scripts/common/golang.sh",
         "scripts/ubuntu/docker.sh",
+        "scripts/ubuntu/fuse.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
