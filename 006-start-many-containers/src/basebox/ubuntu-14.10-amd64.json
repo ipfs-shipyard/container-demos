@@ -166,7 +166,7 @@
   ],
   "post-processors": [
     {
-      "output": "../builds/{{.Provider}}/opscode_ubuntu-14.10_chef-{{user `chef_version`}}.box",
+      "output": "../builds/{{.Provider}}/ubuntu-14.10_ipfs.box",
       "type": "vagrant"
     }
   ],
@@ -184,6 +184,7 @@
         "scripts/common/vagrant.sh",
         "scripts/common/vmtools.sh",
         "scripts/common/golang.sh",
+        "scripts/ubuntu/docker.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
