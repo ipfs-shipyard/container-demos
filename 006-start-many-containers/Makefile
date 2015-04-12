@@ -19,10 +19,15 @@ If you are having trouble mounting IPFS, please see https://github.com/jbenet/go
 endef
 export notfound
 
+demo: ipfs-docker nodes
+
+nodes:
+	vagrant up
+
 load-vagrant-box:
 	vagrant box add --name $(vm_name) /ipfs/$(vm_image)
 
-demo: ipfs-docker load-demo
+demo2: ipfs-docker load-demo
 	docker tag -f $(demo_container_tag) localhost:5000/wiki-node
 	docker push localhost:5000/wiki-node
 	@echo
@@ -35,15 +40,22 @@ demo: ipfs-docker load-demo
 	docker rmi -f $(demo_image_id)
 	docker pull localhost:5000/wiki-node
 
-ipfs-docker: /ipns/local/docker-registry
+ipfs-docker: /ipns/local/docker-registry build-registry
 	@echo Starting docker-registry on ipfs if it is not already started
 	@stat /ipns/local >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	docker ps | grep ipfs-registry || docker run -d \
+	docker ps | grep registry || docker run -d -t \
 	  -p 5000:5000 \
-	  --name $(container_name) \
+	  --name registry \
 	  -v /ipns/local/docker-registry:/ipns/local/docker-registry \
+          -v ${PWD}/docker-registry.yml:/docker-registry.yml \
+          -e DOCKER_REGISTRY_CONFIG=/docker-registry.yml \
+	  -e SETTINGS_FLAVOR=prod \
+          -e STORAGE_PATH=/ipns/local/docker-registry \
 	  -t \
-	  $(container_tag)
+	  registry
+
+build-registry:
+	docker pull registry
 
 /ipns/local/docker-registry:
 	mkdir /ipns/local/docker-registry
@@ -55,11 +67,13 @@ load-demo:
 	docker tag -f $(demo_image_id) $(demo_container_tag)
 
 stop:
-	docker stop $(container_name)
-	docker rm $(container_name)
+	docker stop registry || true
+	docker rm registry || true
+	vagrant destroy -f || true
 
 rel-clean:
 	rm -fr /ipns/local/docker-registry
 
 clean: stop rel-clean
-	docker rmi -f $(demo_image_id)
+
+.PHONY: load-vagrant-box demo ipfs-docker build-registry load-demo clean stop rel-clean
