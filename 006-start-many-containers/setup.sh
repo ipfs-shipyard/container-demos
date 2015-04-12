@@ -10,3 +10,5 @@ echo "Compiling ipfs from github.com/ipfs/go-ipfs/cmd/ipfs"
 go get -u github.com/ipfs/go-ipfs/cmd/ipfs
 
 /home/vagrant/start-ipfs.sh
+
+

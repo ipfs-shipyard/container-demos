@@ -1,6 +1,13 @@
+require 'json'
+
+# Get the ID of the host IPFS
+ipfs_info = JSON.parse `ipfs id`
+master_id = ipfs_info['ID']
+
 Vagrant.configure("2") do |config|
   config.vm.provision "file",  source: "start-ipfs.sh", destination: "/home/vagrant/start-ipfs.sh"
   config.vm.provision "shell", path:   'setup.sh'
+  config.vm.provision "shell", path:   'mount-registry.sh', args: master_id
   config.vm.provider "virtualbox" do |v|
     v.memory = 384
     v.cpus = 1
