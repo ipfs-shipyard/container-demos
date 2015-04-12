@@ -9,4 +9,4 @@ cd /tmp
 wget ${BIN_PKG}
 tar -C /usr/local -xzf /tmp/go${VERSION}.${OS}-${ARCH}.tar.gz
 
-echo 'export PATH=$PATH:/usr/local/go/bin' > /etc/profile.d/golang
+echo 'export PATH=$PATH:/usr/local/go/bin' > /etc/profile.d/golang.sh

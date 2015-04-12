@@ -172,6 +172,11 @@
   ],
   "provisioners": [
     {
+	  "type": "file",
+	  "source": "files/docker-registry/config.yml",
+	  "destination": "/tmp/docker-registry.yml"
+    },
+    {
       "environment_vars": [
         "CHEF_VERSION={{user `chef_version`}}"
       ],

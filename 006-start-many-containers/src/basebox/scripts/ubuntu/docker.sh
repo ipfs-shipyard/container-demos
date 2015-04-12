@@ -7,5 +7,11 @@ apt-get update
 apt-get install lxc-docker -y
 docker -v
 gpasswd -a vagrant docker
-service docker restart
+service docker start
+
+mv /tmp/docker-registry.yml /etc/
+chown root:root /etc/docker-registry.yml
+sleep 10
+
+docker pull registry
 
