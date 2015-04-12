@@ -1,0 +1,14 @@
+Vagrant.configure("2") do |config|
+  config.vm.provision "file",  source: "start-ipfs.sh", destination: "/home/vagrant/start-ipfs.sh"
+  config.vm.provision "shell", path:   'setup.sh'
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 384
+    v.cpus = 1
+  end
+
+  config.vm.define "ipfs-node-0" do |node|
+    node.vm.box = "ubuntu-14.10_ipfs"
+    node.vm.hostname = "ipfs-node-0"
+    node.vm.network(:private_network, { ip: "33.33.33.100" })
+  end
+end
