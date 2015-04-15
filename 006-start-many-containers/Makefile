@@ -8,6 +8,9 @@ demo_image_id=bf25c3f7f322
 demo_image_path=/ipfs/QmfG9AUHSc2oeFJ1kVNqoh4UA61knu4WnetawW53kApiGM/wiki-node.img
 demo_container_tag=ipfs-demo/wiki-node:latest
 
+NODES=5 # default
+export NODES
+
 define notfound
 $(image_path) not found
 Make sure the daemon is running and mounted with allow_other:
@@ -23,7 +26,12 @@ demo: ipfs-docker load-demo nodes
 
 nodes:
 	vagrant up
-	vagrant ssh -c 'docker pull localhost:5000/wiki-node'
+	vagrant ssh ipfs-node-1 -c 'docker pull localhost:5000/wiki-node' &
+	vagrant ssh ipfs-node-2 -c 'docker pull localhost:5000/wiki-node' &
+	vagrant ssh ipfs-node-3 -c 'docker pull localhost:5000/wiki-node' &
+	vagrant ssh ipfs-node-4 -c 'docker pull localhost:5000/wiki-node' &
+	vagrant ssh ipfs-node-5 -c 'docker pull localhost:5000/wiki-node' &
+
 
 load-vagrant-box:
 	vagrant box list | grep $(vm_name) || vagrant box add --name $(vm_name) /ipfs/$(vm_image)
