@@ -23,13 +23,12 @@ demo: ipfs-docker load-demo nodes
 
 nodes:
 	vagrant up
+	vagrant ssh -c 'docker pull localhost:5000/wiki-node'
 
 load-vagrant-box:
 	vagrant box list | grep $(vm_name) || vagrant box add --name $(vm_name) /ipfs/$(vm_image)
 
 demo2: ipfs-docker load-demo
-	docker tag -f $(demo_container_tag) localhost:5000/wiki-node
-	docker push localhost:5000/wiki-node
 	@echo
 	@echo Look, we have a registry
 	@echo
@@ -65,6 +64,8 @@ load-demo:
 	@stat $(demo_image_path) >/dev/null 2>/dev/null || (echo "$$notfound" && false)
 	docker images | grep $(demo_image_id) || docker load < $(demo_image_path)
 	docker tag -f $(demo_image_id) $(demo_container_tag)
+	docker tag -f $(demo_container_tag) localhost:5000/wiki-node
+	docker push localhost:5000/wiki-node
 
 stop:
 	docker stop registry || true

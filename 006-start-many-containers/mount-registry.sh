@@ -18,6 +18,7 @@ do
   ls ${MOUNTPOINT} 2> /dev/null
 done
 
+ls ${MOUNTPOINT}
 echo "Starting registry on ${MOUNTPOINT}"
 
 docker run -p 5000:5000 \
