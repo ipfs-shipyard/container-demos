@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CONNECT="$1"
+
 export GOPATH=/opt/ipfs
 export IPFS_PATH=/var/lib/ipfs
 mkdir -p ${GOPATH}
@@ -34,3 +36,8 @@ cp /home/vagrant/ipfs.conf /etc/init/ipfs.conf
 echo "Starting IPFS"
 service ipfs start
 sleep 10
+
+if [ ! -z ${CONNECT} ]; then
+  echo "Adding: ${CONNECT}"
+  ${IPFS_BIN} swarm connect ${CONNECT} < /dev/null
+fi

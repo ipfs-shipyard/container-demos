@@ -1,6 +1,6 @@
 
-vm_image=QmW9on9UeKCVDb5dsTEZJQwQoH53gXUtVfWvSBhf2Thmyq/vms/opscode_ubuntu-14.04_chef-provisionerless.box
-vm_name=opscode_ubuntu-14.04
+vm_image=QmVq4oB59VdEwNWv4NUSdcyy6UErMieTATvMiaqtArrjw4/ubuntu-14.10_ipfs.box
+vm_name=ubuntu-14.10_ipfs
 registry_name=ipfs-registry
 registry_tag=ipfs/docker-registry:0.1.0
 
@@ -19,13 +19,13 @@ If you are having trouble mounting IPFS, please see https://github.com/jbenet/go
 endef
 export notfound
 
-demo: ipfs-docker nodes
+demo: ipfs-docker load-demo nodes
 
 nodes:
 	vagrant up
 
 load-vagrant-box:
-	vagrant box add --name $(vm_name) /ipfs/$(vm_image)
+	vagrant box list | grep $(vm_name) || vagrant box add --name $(vm_name) /ipfs/$(vm_image)
 
 demo2: ipfs-docker load-demo
 	docker tag -f $(demo_container_tag) localhost:5000/wiki-node
@@ -71,9 +71,9 @@ stop:
 	docker rm registry || true
 	vagrant destroy -f || true
 
-rel-clean:
+rel-clean: clean
 	rm -fr /ipns/local/docker-registry
 
-clean: stop rel-clean
+clean: stop
 
 .PHONY: load-vagrant-box demo ipfs-docker build-registry load-demo clean stop rel-clean

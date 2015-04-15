@@ -10,6 +10,15 @@ MOUNTPOINT="/ipns/${MASTER_ID}/docker-registry"
 echo "Starting local docker registry mounted on IPFS:"
 echo ${MOUNTPOINT}
 echo
+echo "Waiting for ${MOUNTPOINT} to come online ... (this will take a while)"
+ls ${MOUNTPOINT} 2> /dev/null
+while [ "$?" -gt 0 ]
+do
+  sleep 10
+  ls ${MOUNTPOINT} 2> /dev/null
+done
+
+echo "Starting registry on ${MOUNTPOINT}"
 
 docker run -p 5000:5000 \
            -d -t \
