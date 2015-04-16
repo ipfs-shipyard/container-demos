@@ -67,15 +67,15 @@ To run this demo:
   execution:
 
     * `ROOT_FILESYSTEM_ID`, which defaults to
-      `QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H` and is the IPFS
-      key for the container's root directory.
+      [`QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H`][root] and is
+      the IPFS key for the container's root directory.
     * `ROOT_FILESYSTEM_LOCAL_PATH`, which defaults to
       `/tmp/ipfs-nsinit-demo` and is the location of the directory
       used for the local copy of the container's root directory.
     * `COMMAND`, which defaults to `/bin/busybox sh` and is the
       command executed inside the container.  The
-      `QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H` tree only
-      contains a [BusyBox][] binary, so your options are somewhat
+      [`QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H`][root] tree
+      only contains a [BusyBox][] binary, so your options are somewhat
       limited unless you also override `ROOT_FILESYSTEM_ID`.
 
 If you don't like `nsinit`, I'm sure you could use a similar workflow
@@ -93,5 +93,6 @@ unpacked root filesystem.
 [install-ipfs]: https://github.com/ipfs/go-ipfs#install
 [libcontainer-vendoring]: https://github.com/docker/libcontainer/issues/210
 [override]: https://www.gnu.org/software/make/manual/html_node/Overriding.html
+[root]: http://gateway.ipfs.io/ipfs/QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H
 [BusyBox]: http://www.busybox.net/
 [LXC]: https://linuxcontainers.org/
