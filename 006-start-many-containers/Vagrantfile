@@ -1,0 +1,34 @@
+require 'json'
+
+# Get the ID of the host IPFS
+ipfs_info = JSON.parse `ipfs id`
+master_id = ipfs_info['ID']
+
+addresses = ipfs_info['Addresses']
+addr = addresses.select { |i| i =~ /33.33.33./ }.first
+nodes = ENV['NODES'] ? ENV['NODES'].to_i : 5
+
+unless nodes > 0
+  puts "Set environmental variable NODES to greater than 0"
+  exit 1
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.provision "file",  source: "ipfs.conf", destination: "/home/vagrant/ipfs.conf"
+  config.vm.provision "shell", path:   'setup.sh', args: addr
+  config.vm.provision "shell", path:   'mount-registry.sh', args: master_id
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 384
+    v.cpus = 1
+  end
+
+  node_names = (1..nodes).to_a.map { |i| "ipfs-node-#{i}" }
+
+  node_names.each_with_index do |node_name, i|
+    config.vm.define node_name do |node|
+      node.vm.box = "ubuntu-14.10_ipfs"
+      node.vm.hostname = node_name
+       node.vm.network(:private_network, { ip: "33.33.33.#{100 + 1}" })
+    end
+  end
+end
