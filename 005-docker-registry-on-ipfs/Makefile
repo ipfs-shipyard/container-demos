@@ -1,9 +1,14 @@
 container_name=ipfs-registry
 container_tag=ipfs/docker-registry:0.1.0
 
-demo_image_id=bf25c3f7f322
-demo_image_path=/ipfs/QmfG9AUHSc2oeFJ1kVNqoh4UA61knu4WnetawW53kApiGM/wiki-node.img
-demo_container_tag=ipfs-demo/wiki-node:latest
+#demo_image_id=bf25c3f7f322
+#demo_image_path=/ipfs/QmfG9AUHSc2oeFJ1kVNqoh4UA61knu4WnetawW53kApiGM/wiki-node.img
+#demo_container_tag=ipfs-demo/wiki-node:latest
+#demo_remote_tag="localhost:5000/wiki-node
+demo_image_id=4986bf8c1536
+demo_image_path=/ipfs/QmPveebHsVPpS6Q9oPEtDBjJARnWFNNGuLhuCQE9aCejte/busybox.img
+demo_container_tag="busybox:latest"
+demo_remote_tag="localhost:5000/busybox"
 
 define notfound
 $(image_path) not found
@@ -17,8 +22,8 @@ endef
 export notfound
 
 demo: ipfs-docker load-demo
-	docker tag -f $(demo_container_tag) localhost:5000/wiki-node
-	docker push localhost:5000/wiki-node
+	docker tag -f $(demo_container_tag) $(demo_remote_tag)
+	docker push $(demo_remote_tag)
 	@echo
 	@echo Look, we have a registry
 	@echo
@@ -27,7 +32,7 @@ demo: ipfs-docker load-demo
 	@echo Deleting demo image and try a pull
 	@echo
 	docker rmi -f $(demo_image_id)
-	docker pull localhost:5000/wiki-node
+	docker pull $(demo_remote_tag)
 
 ipfs-docker: /ipns/local/docker-registry
 	@echo Starting docker-registry on ipfs if it is not already started

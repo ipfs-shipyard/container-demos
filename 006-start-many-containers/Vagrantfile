@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
     config.vm.define node_name do |node|
       node.vm.box = "ubuntu-14.10_ipfs"
       node.vm.hostname = node_name
-       node.vm.network(:private_network, { ip: "33.33.33.#{100 + 1}" })
+       node.vm.network(:private_network, { ip: "33.33.33.#{100 + i}" })
     end
   end
 end
