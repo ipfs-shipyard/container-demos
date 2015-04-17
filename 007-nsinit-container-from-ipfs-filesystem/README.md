@@ -44,7 +44,11 @@ To run this demo:
         $ go get -d -v ./...
         $ make direct-build
 
-2. Run `make`:
+2. Launch a local IPFS daemon so you can fetch remote objects:
+
+        $ ipfs daemon
+
+3. Run `make`:
 
         $ make
         test ! -e /tmp/ipfs-nsinit-demo
