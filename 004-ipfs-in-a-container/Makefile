@@ -19,16 +19,16 @@ export notfound
 demo: ipfs
 	@echo "Waiting for ifps daemon to sync up"
 	sleep 30
-	sudo docker exec $(container_name) cat $(demo)
+	docker exec $(container_name) cat $(demo)
 
 ipfs: load-image
 	@echo "Warning: Running ipfs daemon in privileged container"
-	sudo docker run -d --name $(container_name) --privileged -t $(container_tag)
+	docker run -d --name $(container_name) --privileged -t $(container_tag)
 
 load-image:
 	@stat $(image_path) >/dev/null 2>/dev/null || (echo "$$notfound" && false)
-	sudo docker load < $(image_path)
-	sudo docker tag $(image_id) $(container_tag)
+	docker load < $(image_path)
+	docker tag $(image_id) $(container_tag)
 
 clean-image:
-	sudo docker rmi $(image_id)
+	docker rmi $(image_id)
