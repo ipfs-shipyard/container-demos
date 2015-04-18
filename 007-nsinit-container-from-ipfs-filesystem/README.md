@@ -27,22 +27,16 @@ the file mode locally.
 
 To run this demo:
 
-1. [Install the `ipfs`][install-ipfs] and `nsinit` binaries somewhere
-   in your `PATH`.  IPFS is easy:
+1. [Install the `ipfs`][install-ipfs] binary somewhere in your `PATH`:
+   IPFS is easy:
 
         $ go get -u github.com/ipfs/go-ipfs/cmd/ipfs
 
-   But `nsinit` is [a bit more complicated due to
-   vendoring][libcontainer-vendoring].  I had success with:
-
-        $ git clone https://github.com/docker/libcontainer.git
-        $ cd libcontainer
-        $ export GOPATH="${PWD}/vendor"
-        $ mkdir -p vendor/src/github.com/docker
-        $ ln -s "${PWD}" vendor/src/github.com/docker/libcontainer
-        $ cd vendor/src/github.com/docker/libcontainer
-        $ go get -d -v ./...
-        $ make direct-build
+   You can optionally compile a local `nsinit` binary, but it's [a bit
+   more complicated due to vendoring][libcontainer-vendoring].  For
+   folks that don't want to bother, I've bundled a Linux / amd64 build
+   based on their commit 32b8465d (Merge pull request #533 from
+   rhatdan/badrelabel, 2015-04-14).
 
 2. Launch a local IPFS daemon so you can fetch remote objects:
 
@@ -52,13 +46,12 @@ To run this demo:
 
         $ make
         test ! -e /tmp/ipfs-nsinit-demo
-        ipfs get -o=/tmp/ipfs-nsinit-demo QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H
+        ipfs get -o=/tmp/ipfs-nsinit-demo QmRBUaQYGSYzGpYoheUDC16cpKmDKGvsnFRvAdBuGddAYS
         Saving file(s) to /tmp/ipfs-nsinit-demo
-        1.86 MB 0
-        chmod 755 /tmp/ipfs-nsinit-demo/bin/busybox
-        nsinit config >"/tmp/ipfs-nsinit-demo/container.json"
-        cd /tmp/ipfs-nsinit-demo && sudo nsinit exec --tty /bin/busybox sh
-        Password: 
+        31.42 MB 0
+        chmod 755 /tmp/ipfs-nsinit-demo/bin/* /tmp/ipfs-nsinit-demo/lib64/ld-*
+        /tmp/ipfs-nsinit-demo/bin/nsinit config >"/tmp/ipfs-nsinit-demo/container.json"
+        cd /tmp/ipfs-nsinit-demo && sudo /tmp/ipfs-nsinit-demo/bin/nsinit exec --tty /bin/busybox sh
         / # echo 'hello from your container!'
         hello from your container!
 
@@ -71,16 +64,17 @@ To run this demo:
   execution:
 
     * `ROOT_FILESYSTEM_ID`, which defaults to
-      [`QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H`][root] and is
+      [`QmRBUaQYGSYzGpYoheUDC16cpKmDKGvsnFRvAdBuGddAYS`][root] and is
       the IPFS key for the container's root directory.
     * `ROOT_FILESYSTEM_LOCAL_PATH`, which defaults to
       `/tmp/ipfs-nsinit-demo` and is the location of the directory
       used for the local copy of the container's root directory.
     * `COMMAND`, which defaults to `/bin/busybox sh` and is the
       command executed inside the container.  The
-      [`QmYRpzwXkSnCPPNL4b2gn5AFnyyMHFxhS9Nrbau5ycw92H`][root] tree
-      only contains a [BusyBox][] binary, so your options are somewhat
-      limited unless you also override `ROOT_FILESYSTEM_ID`.
+      [`QmRBUaQYGSYzGpYoheUDC16cpKmDKGvsnFRvAdBuGddAYS`][root] tree
+      only contains [BusyBox][], IPFS, and `nsinit` binaries, so your
+      options are somewhat limited unless you also override
+      `ROOT_FILESYSTEM_ID`.
 
 If you don't like `nsinit`, I'm sure you could use a similar workflow
 with [LXC][] or any other container-launching system that uses an
