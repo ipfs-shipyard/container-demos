@@ -46,11 +46,10 @@ To run this demo:
 
         $ make
         test ! -e /tmp/ipfs-nsinit-demo
-        ipfs get -o=/tmp/ipfs-nsinit-demo QmRBUaQYGSYzGpYoheUDC16cpKmDKGvsnFRvAdBuGddAYS
+        ipfs get -o=/tmp/ipfs-nsinit-demo QmWQWb4cBmeLbfpRLueo6pB3KSUgcofL5HhaZqnAYiXYCd
         Saving file(s) to /tmp/ipfs-nsinit-demo
         31.42 MB 0
         chmod 755 /tmp/ipfs-nsinit-demo/bin/* /tmp/ipfs-nsinit-demo/lib64/ld-*
-        /tmp/ipfs-nsinit-demo/bin/nsinit config >"/tmp/ipfs-nsinit-demo/container.json"
         cd /tmp/ipfs-nsinit-demo && sudo /tmp/ipfs-nsinit-demo/bin/nsinit exec --tty /bin/busybox sh
         / # echo 'hello from your container!'
         hello from your container!
@@ -64,14 +63,14 @@ To run this demo:
   execution:
 
     * `ROOT_FILESYSTEM_ID`, which defaults to
-      [`QmRBUaQYGSYzGpYoheUDC16cpKmDKGvsnFRvAdBuGddAYS`][root] and is
+      [`QmWQWb4cBmeLbfpRLueo6pB3KSUgcofL5HhaZqnAYiXYCd`][root] and is
       the IPFS key for the container's root directory.
     * `ROOT_FILESYSTEM_LOCAL_PATH`, which defaults to
       `/tmp/ipfs-nsinit-demo` and is the location of the directory
       used for the local copy of the container's root directory.
     * `COMMAND`, which defaults to `/bin/busybox sh` and is the
       command executed inside the container.  The
-      [`QmRBUaQYGSYzGpYoheUDC16cpKmDKGvsnFRvAdBuGddAYS`][root] tree
+      [`QmWQWb4cBmeLbfpRLueo6pB3KSUgcofL5HhaZqnAYiXYCd`][root] tree
       only contains [BusyBox][], IPFS, and `nsinit` binaries, so your
       options are somewhat limited unless you also override
       `ROOT_FILESYSTEM_ID`.
