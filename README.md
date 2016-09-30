@@ -34,7 +34,7 @@ This is also a **discussion repo**. That means that all of the work gets done in
 
 1. Record demo
 2. Upload to youtube on ipfs account
-3. Write a demo page -- like an [ipfs-example](https://github.com/protocol/ipfs-examples) but embedding the youtube video + transcript
+3. Write a demo page -- like an [ipfs-example](https://github.com/ipfs/examples) but embedding the youtube video + transcript
 4. Publish to ipfs examples page, blog, twitter, etc.
 
 ## Contribute
