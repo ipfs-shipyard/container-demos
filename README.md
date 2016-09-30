@@ -10,7 +10,7 @@
 
 This repository outlines demos for container and infrastructure things done with IPFS: booting VMs, docker-registry, mounting data volumes, etc.
 
-This is also a **discussion repo**. That means that all of the work gets done in the [issues](https://github.com/ipfs/ipfs-container-demos/issues).
+This is also a **discussion repo**. That means that all of the work gets done in the [issues](https://github.com/ipfs/container-demos/issues).
 
 ## Planning a Demo
 
