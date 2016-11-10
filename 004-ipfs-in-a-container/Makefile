@@ -17,7 +17,7 @@ endef
 export notfound
 
 demo: ipfs
-	@echo "Waiting for ifps daemon to sync up"
+	@echo "Waiting for ipfs daemon to sync up"
 	sleep 30
 	sudo docker exec $(container_name) cat $(demo)
 
