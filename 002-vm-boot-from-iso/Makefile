@@ -9,9 +9,8 @@ endif
 define notfound
 $(iso) not found
 Make sure the daemon is running and mounted:
-	ipfs daemon &
+	ipfs daemon --mount &
 	sleep 10
-	ipfs mount
 
 If you are having trouble mounting IPFS, please see https://github.com/jbenet/go-ipfs/blob/master/docs/fuse.md
 endef
